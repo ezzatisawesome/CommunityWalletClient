@@ -18,13 +18,23 @@ class Community extends CommunityWalletExpressServerClient {
         this.axiosClient.defaults.baseURL = this.axiosClient.defaults.baseURL + '/community'
     }
 
-    getOneByCode(code) {
-        this.axiosClient.post('/getOneByCode')
-            .then(res => {
-                console.log(res)
-            })
+
+    async getOneByCode(code) {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.post('/getOneByCode', { communityCode: code, something: 'err' })
+                .then(res => {
+                    resolve(res.data);
+                })
+                .catch(err => {
+                    //console.log(err.response.data)
+                    reject(err.response.data)
+                })
+        })
     }
+
+
 }
 
 const comm = new Community('U2FsdGVkX1+KGrVrOwkAGXdUpgvqcFwY+/XIq8HPlSipiH41i2B8f/IJ2u3ZJulR3ZH4Wb18BzYkAATIGF9vjFmWG5TxnyYAq6bkxJkCMMobOuUfLOA9OeNKq/zZL+y7', 'ilovelfa')
-console.log(comm.getOneByCode('SCCcip'))
+
+console.log(await comm.getOneByCode('SCCcip'))
