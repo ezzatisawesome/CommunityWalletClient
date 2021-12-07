@@ -18,6 +18,7 @@ class Community extends CommunityWalletExpressServerClient {
         this.axiosClient.defaults.baseURL = this.axiosClient.defaults.baseURL + '/community'
     }
 
+    /* ---------- GET ---------- */
     async getOneByCode(code) {
         return new Promise((resolve, reject) => {
             this.axiosClient.get('/getOneByCode', { communityCode: code })
@@ -113,6 +114,7 @@ class Community extends CommunityWalletExpressServerClient {
         })
     }
 
+    /* ---------- POST ---------- */
     async burn() {
         return new Promise((resolve, reject) => {
             this.axiosClient.post('/burn')
@@ -151,6 +153,7 @@ class Community extends CommunityWalletExpressServerClient {
         })
     }
 
+    /* ---------- PUT ---------- */
     async addAdmin(id, permissionLevel, username) {
         return new Promise((resolve, reject) => {
             this.axiosClient.put('/addAdmin', {
@@ -206,8 +209,165 @@ class Community extends CommunityWalletExpressServerClient {
         })
     }
 
+    /* ---------- DELETE ---------- */
     async delete() {
 
+    }
+}
+
+class User extends CommunityWalletExpressServerClient {
+    constructor(mnemonic, password) {
+        super(mnemonic, password)
+        this.axiosClient.defaults.baseURL = this.axiosClient.defaults.baseURL + '/user'
+    }
+
+    /* ---------- GET ---------- */
+    async balancesOneCommunity() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/balancesOneCommunity')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async balancesAllCommunities() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/balancesAllCommunities')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async getOneById() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/getOneById')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async getOneByPhoneNumber() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/getOneByPhoneNumber')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async getOneByUsername() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/getOneByUsername')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async listAllUsers() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/listAllUsers')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async listAllUserCommunities() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/listAllUserCommunities')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async listServices() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/listServices')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async login() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/login')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async privateKey() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/privateKey')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async searchUsers() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/searchUsers')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async tokens() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.get('/tokens')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    /* ---------- POST ---------- */
+    async createUser() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.post('/create')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async sendTokens() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.post('/sendTokens')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+
+    /* ---------- PUT ---------- */
+    async addCommunity() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.put('/addCommunity')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async updateUser() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.put('/user')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    async newPassword() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.put('/newPassword')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
+    }
+
+    /* ---------- DELETE ---------- */
+    async deleteUser() {
+        return new Promise((resolve, reject) => {
+            this.axiosClient.delete('/user')
+        })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err.response.data))
     }
 }
 
