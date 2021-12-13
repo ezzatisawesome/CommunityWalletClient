@@ -9,6 +9,7 @@ class CommunityWalletExpressServerClient {
             headers: { 'mnemonic': mnemonic, 'password': password }
         });
         this.community = Community(this.mnemonic, this.password)
+        this.services = Services(this.mnemonic, this.password)
     }
 }
 
@@ -222,9 +223,9 @@ class User extends CommunityWalletExpressServerClient {
     }
 
     /* ---------- GET ---------- */
-    async balancesOneCommunity() {
+    async balancesOneCommunity(communityCode) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/balancesOneCommunity')
+            this.axiosClient.get('/balancesOneCommunity', { communityCode: communityCode })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
@@ -238,25 +239,25 @@ class User extends CommunityWalletExpressServerClient {
             .catch(err => reject(err.response.data))
     }
 
-    async getOneById() {
+    async getOneById(userId) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/getOneById')
+            this.axiosClient.get('/getOneById', { id: userId })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async getOneByPhoneNumber() {
+    async getOneByPhoneNumber(phoneNumber) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/getOneByPhoneNumber')
+            this.axiosClient.get('/getOneByPhoneNumber', { phoneNumber: phoneNumber })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async getOneByUsername() {
+    async getOneByUsername(username) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/getOneByUsername')
+            this.axiosClient.get('/getOneByUsername', { username: username })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
@@ -270,25 +271,25 @@ class User extends CommunityWalletExpressServerClient {
             .catch(err => reject(err.response.data))
     }
 
-    async listAllUserCommunities() {
+    async listAllUserCommunities(phoneNumber) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/listAllUserCommunities')
+            this.axiosClient.get('/listAllUserCommunities', { phoneNumber: phoneNumber })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async listServices() {
+    async listServices(username) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/listServices')
+            this.axiosClient.get('/listServices', { username: username })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async login() {
+    async login(phoneNumber, password) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/login')
+            this.axiosClient.get('/login', { password: password, phoneNumber: phoneNumber })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
@@ -302,34 +303,34 @@ class User extends CommunityWalletExpressServerClient {
             .catch(err => reject(err.response.data))
     }
 
-    async searchUsers() {
+    async searchUsers(searchText, page, limit) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/searchUsers')
+            this.axiosClient.get('/searchUsers', { searchText: searchText, page: page, limit: limit })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async tokens() {
+    async tokens(communityCode) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.get('/tokens')
+            this.axiosClient.get('/tokens', { communityCode: communityCode })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
     /* ---------- POST ---------- */
-    async createUser() {
+    async createUser(password, phoneNumber, username) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.post('/create')
+            this.axiosClient.post('/create', { password: password, phoneNumber: phoneNumber, username: username })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async sendTokens() {
+    async sendTokens(recipientAddress, transferAmount, contractAddress) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.post('/sendTokens')
+            this.axiosClient.post('/sendTokens', { recipientAddress: recipientAddress, transferAmount: transferAmount, contractAddress: contractAddress })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
@@ -337,22 +338,23 @@ class User extends CommunityWalletExpressServerClient {
 
 
     /* ---------- PUT ---------- */
-    async addCommunity() {
+    async addCommunity(communityCode) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.put('/addCommunity')
+            this.axiosClient.put('/addCommunity', { communityCode: communityCode })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
-    async updateUser() {
+    async updateUser(phoneNumber, username) {
         return new Promise((resolve, reject) => {
-            this.axiosClient.put('/user')
+            this.axiosClient.put('/user', { phoneNumber, username })
         })
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
 
+    // not working
     async newPassword() {
         return new Promise((resolve, reject) => {
             this.axiosClient.put('/newPassword')
@@ -362,6 +364,8 @@ class User extends CommunityWalletExpressServerClient {
     }
 
     /* ---------- DELETE ---------- */
+
+    // not working
     async deleteUser() {
         return new Promise((resolve, reject) => {
             this.axiosClient.delete('/user')
@@ -369,6 +373,15 @@ class User extends CommunityWalletExpressServerClient {
             .then(res => resolve(res.data))
             .catch(err => reject(err.response.data))
     }
+}
+
+class Services extends CommunityWalletExpressServerClient {
+    constructor(mnemonic, password) {
+        super(mnemonic, password)
+        this.axiosClient.defaults.baseURL = this.axiosClient.defaults.baseURL + '/service'
+    }
+
+
 }
 
 export default CommunityWalletExpressServerClient
